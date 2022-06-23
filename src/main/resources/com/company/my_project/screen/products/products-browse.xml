@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://jmix.io/schema/ui/window"
+        xmlns:c="http://jmix.io/schema/ui/jpql-condition"
+        caption="msg://productsBrowse.caption"
+        focusComponent="productsesTable">
+    <data readOnly="true">
+        <collection id="productsesDc"
+                    class="com.company.my_project.entity.Products">
+            <fetchPlan extends="_base"/>
+            <loader id="productsesDl">
+                <query>
+                    <![CDATA[select e from Products e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <screenSettings id="settingsFacet" auto="true"/>
+    </facets>
+    <actions>
+        <action id="lookupSelectAction"
+                caption="msg:///actions.Select"
+                icon="LOOKUP_OK"
+                primary="true"
+                shortcut="${COMMIT_SHORTCUT}"/>
+        <action id="lookupCancelAction"
+                caption="msg:///actions.Cancel"
+                icon="LOOKUP_CANCEL"/>
+    </actions>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="productsesTable" spacing="true">
+        <filter id="filter"
+                dataLoader="productsesDl">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="productsesTable"
+                    width="100%"
+                    dataContainer="productsesDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="name"/>
+                <column id="article_number"/>
+                <column id="description"/>
+                <column id="sizes"/>
+            </columns>
+            <simplePagination/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="productsesTable.create"/>
+                <button id="editBtn" action="productsesTable.edit"/>
+                <button id="removeBtn" action="productsesTable.remove"/>
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>
